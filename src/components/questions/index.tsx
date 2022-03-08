@@ -8,6 +8,7 @@ import QuestionText from "./text";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 import "./index.css";
+import Standings from "../standings";
 
 const Questions = () => {
   const {
@@ -19,7 +20,9 @@ const Questions = () => {
     (state) => state.roomReducer
   );
 
-  if (!question.text) return null;
+  if (questionNumber < 1) {
+    return null;
+  }
 
   return (
     <div className="questions-container">
@@ -33,12 +36,12 @@ const Questions = () => {
           />
         );
       })}
-      <QuestionTimer />
       <div style={{ marginTop: 50 }}>
         {users.map((user, index) => {
-          return <UserAvatar answering user={user} />;
+          return <UserAvatar key={index} answering user={user} />;
         })}
       </div>
+      <QuestionTimer />
     </div>
   );
 };

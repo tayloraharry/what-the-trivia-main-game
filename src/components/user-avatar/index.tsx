@@ -20,22 +20,16 @@ const UserAvatar = ({
   } = useSelector<RootState, RootState["roomReducer"]>(
     (state) => state.roomReducer
   );
-  const [userIds, setUserIds] = useState<number[]>([]);
-
-  useEffect(() => {
-    if (answering) {
-      setUserIds(usersAnswered.map(user => user.id));
-    }
-  }, [usersAnswered])
 
   return (
     <div className="user-avatar">
       <div className="user-avatar__main" key={id}>
-        <img src={`images/player_${id}.png`} className={`user-avatar__image ${answering && !userIds.includes(id) ? 'user-avatar__blackout' : '' }`} />
-        { answering && !userIds.includes(id)  ? null :(
+        <img src={`images/player_${id}.png`} className={`user-avatar__image ${answering && !usersAnswered.includes(id) ? 'user-avatar__blackout' : '' }`} />
+        { answering && !usersAnswered.includes(id)  ? null :(
           <>
             <b className="user-avatar__name">{name}</b>
             {vip ? <b className="user-avatar__vip">VIP</b> : null}
+            {answering ? <b>{currentAnswerPoints}</b> : null}
           </>
         ) 
         }

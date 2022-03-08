@@ -1,48 +1,45 @@
 import { Progress, Timeline } from "antd";
 import React, { useEffect, useState } from "react";
+import Countdown from "react-countdown";
 import { useSelector } from "react-redux";
+import { disconnectSocket, expireCurrentQuestion } from "../../socketio.service";
 import { RootState } from "../../store";
 
 const QuestionTimer = () => {
   const {
-    room: { currentQuestion },
+    room: { id, currentQuestion },
   } = useSelector<RootState, RootState["roomReducer"]>(
     (state) => state.roomReducer
   );
 
-  const [timeLeft, setTimeLeft] = useState<number>(150);
+  const [showTimer, setShowTimer] = useState<boolean>(false);
+
+  const handleTimeExpiration = () => {
+    // expireCurrentQuestion(id);
+    setShowTimer(false);
+  };
 
   useEffect(() => {
-    if (timeLeft === 0) {
-      console.log("TIME LEFT IS 0");
-      setTimeLeft(0);
+    setShowTimer(true);
+    if (currentQuestion.timeExpired) {
+      setShowTimer(false);
     }
-
-    // exit early when we reach 0
-    if (!timeLeft) return;
-
-    // save intervalId to clear the interval when the
-    // component re-renders
-    const intervalId = setInterval(() => {
-      setTimeLeft(timeLeft - 1);
-    }, 100);
-
-    // clear interval on re-render to avoid memory leaks
-    return () => clearInterval(intervalId);
-    // add timeLeft as a dependency to re-rerun the effect
-    // when we update it
-  }, [timeLeft]);
-
-  useEffect(() => {
-    setTimeLeft(150);
-  }, [currentQuestion.question.text]);
+  }, [currentQuestion.number, currentQuestion.timeExpired]);
 
   return (
-    <>
-      <h1 style={{ textAlign: "center", fontSize: "3vw" }}>
-        { timeLeft > 0 ? (timeLeft / 10).toFixed(0) : 'Time\s Up!'}
+    <div style={{position:'relative'}}>
+      <h1 style={{ fontSize: '5vw', top:0,right: 0 }}>
+        {showTimer ? (
+          <Countdown
+            date={Date.now() + 15000}
+            intervalDelay={0}
+            precision={3}
+            renderer={props => <div>{(props.total / 1000).toFixed(0)}</div>}
+            onComplete={handleTimeExpiration}
+          />
+        ) : null}
       </h1>
-    </>
+    </div>
   );
 };
 

@@ -13,6 +13,7 @@
     "@types/react-redux": "^7.1.22",
     "antd": "^4.18.9",
     "react": "^17.0.2",
+    "react-countdown": "^2.3.2",
     "react-countdown-circle-timer": "^3.0.8",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
@@ -21,7 +22,7 @@
     "socket.io-client": "^4.4.1",
     "typescript": "^4.6.2",
     "web-vitals": "^2.1.4",
-    "what-the-trivia-types": "^1.0.2"
+    "what-the-trivia-types": "^1.0.18"
   },
   "scripts": {
     "devAll": "cd ../server && npm run dev",

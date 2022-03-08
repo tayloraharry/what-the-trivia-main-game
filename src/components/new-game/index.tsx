@@ -6,23 +6,10 @@ import { RootState } from "../../store";
 import "./index.css";
 
 const NewGame = () => {
-  const [isMobile, setIsMobile] = useState<boolean>(false);
   const { room, connectionError } = useSelector<
     RootState,
     RootState["roomReducer"]
   >((state) => state.roomReducer);
-
-  useEffect(() => {
-    setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
-  }, []);
-
-  if (isMobile) {
-    return (
-      <Space className="new-game__mobile" direction="horizontal">
-        <h1>Please enjoy ¿What the Trivia? on a non-mobile device.</h1>
-      </Space>
-    );
-  }
 
   return (
     <Space direction="horizontal" className="new-game">
